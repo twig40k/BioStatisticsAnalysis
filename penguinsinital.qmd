@@ -1,0 +1,20 @@
+---
+title: "Palmer Penguins Initial Analysis"
+author: "Ryan Hanks"
+format: html
+
+execute:
+  keep-md: true
+  
+---
+
+## Palmer Penguins
+
+blurb
+```{r}
+library(tidyverse)
+penguins <- read_csv("https://raw.githubusercontent.com/mcduryea/Intro-to-Bioinformatics/main/data/penguins_samp1.csv")
+penguins %>% head()
+```
+
+table with 8 heading representing the first six rows of penguins.
