@@ -16,5 +16,213 @@ library(tidyverse)
 penguins <- read_csv("https://raw.githubusercontent.com/mcduryea/Intro-to-Bioinformatics/main/data/penguins_samp1.csv")
 penguins %>% head()
 ```
+```{r}
+library(kableExtra)
+```
 
 table with 8 heading representing the first six rows of penguins.
+
+### HW 3
+yep
+
+```{r}
+penguins %>%
+  count(island)
+```
+In the data set there are 36 instances of Biscoe, 3 of Dream and 5 of Torgersen. I believe that those are islands that penguins were found on.
+```{r}
+penguins%>%
+  count(species)
+  
+```
+count of penguin species
+```{r}
+penguins%>%
+  count(island, species) %>%
+   pivot_wider(names_from = species, values_from = n, values_fill = 0) %>%
+  kable() %>%
+  kable_styling(bootstrap_options = c("hover", "striped"))
+```
+Count of different species on islands. tidyverse is nice. kable I think is too much extra code for most cases.
+
+```{r}
+penguins %>%
+  summarise(mean_bill_length_mm = mean(bill_length_mm, na.rm= TRUE))
+```
+```{r}
+penguins %>%
+  summarize(
+    min_bill_length = min(bill_length_mm, na.rm = TRUE),
+    first_quartile_bill_length = quantile(bill_length_mm, 0.25, na.rm = TRUE),
+    median_bill_length = median(bill_length_mm, na.rm = TRUE),
+    mean_bill_length_mm = mean(bill_length_mm, na.rm = TRUE),
+    third_quartile_bill_length = quantile(bill_length_mm, 0.75, na.rm = TRUE),
+    standard_deviation_bill_length = sd(bill_length_mm, na.rm = TRUE)
+    ) %>%
+  pivot_longer(cols = everything())
+```
+Bill length summary stats
+
+```{r}
+penguins %>%
+  select(species, island, sex, year)
+```
+```{r}
+penguins %>%
+  select(species, island, sex, year) %>%
+  filter(species == "Chinstrap")
+```
+```{r}
+chinstraps <- penguins %>%
+  select(species, island, sex, year) %>%
+  filter(species == "Chinstrap") %>%
+  select(-species)
+
+chinstraps %>%
+  head()
+```
+Used sorting methods to get chinstraps only.
+
+```{r}
+penguins %>%
+  group_by(species) %>%
+  summarise(
+    mean_bill_depth_mm = mean(bill_depth_mm, na.rm = TRUE),
+    sd_bill_depth_mm = sd(bill_depth_mm, na.rm = TRUE)
+  )
+```
+Both the adelie and chinstrap penguins have similar bill depths, about one SD off. Gentoo is the smallest bill depth.
+
+
+```{r}
+penguins %>%
+  ggplot() +
+  geom_bar(mapping = aes(x = species)) +
+  labs(title ="Counts of Penguin Species",
+       x = "Species", y = "Count")
+```
+The + signs indicate additions in this case labels to the standard ggplot function.
+
+```{r}
+penguins%>%
+  ggplot()+
+  geom_bar(mapping = aes(x= island))
+```
+A bar graph showing the counts of penguins from different islands. 
+
+```{r}
+penguins %>%
+  ggplot() +
+  geom_histogram(mapping = aes(x = bill_length_mm),
+                 color = "white",
+                 fill = "blue") +
+  labs(title ="Distribution of Bill Lengths",
+       x = "Bill Length (mm)", y = "Count")
+```
+A histogram showing the count of various bill lengths. It shows a higher concentration of results between 45 and 50 mm.
+
+```{r}
+penguins %>%
+  ggplot() +
+  geom_boxplot(mapping = aes(x = bill_length_mm),
+                 color = "black",
+                 fill = "blue") +
+  labs(title ="Distribution of Bill Lengths",
+       x = "Bill Length (mm)", y = "Count")
+```
+The box plot is much better for showing the summary statistics like median and quartiles. The histogram is much better at showing the individual data points.
+
+```{r}
+penguins %>%
+  ggplot() +
+  geom_point(mapping = aes(x = bill_depth_mm, y = bill_length_mm)) +
+  labs(title = "Bill Depth and Length",
+       x = "Bill Depth (mm)",
+       y = "Bill Length (mm)")
+```
+This scatter plot shows some interesting outlines and groupings. Specifically there is one penguin that appears to have a much larger bill length and depth than any others.
+
+```{r}
+penguins %>%
+  ggplot()+
+  geom_point(mapping = aes(x = flipper_length_mm, y = body_mass_g))+
+  labs( title = "body mass vs flipper length")
+```
+A scatter plot that shows a positive association between body mass and flipper length.
+
+```{r}
+penguins %>%
+  ggplot() +
+  geom_bar(mapping = aes(x = island, fill = species)) +
+  labs(title = "Species by Island",
+       x = "Island",
+       y = "Species")
+```
+This graph shows penguins divided by island and then by species. It indicates that there is generally one dominate species on each island and that the Adelie species is more wide spread. 
+
+```{r}
+penguins %>%
+  ggplot() +
+  geom_boxplot(mapping = aes(x = bill_depth_mm, y = species)) +
+  labs(title = "Bill Depth by Species",
+       x = "Bill Depth (mm)",
+       y = "")
+```
+```{r}
+penguins %>%
+  ggplot() +
+  geom_histogram(mapping = aes(x = bill_depth_mm)) +
+  facet_wrap(~species, ncol = 1) +
+  labs(title = "Bill Depth by Species",
+       x = "Bill Depth (mm)",
+       y = "")
+```
+These graphs show bill depth broken down by species. The bow plot is effective for showing comparisons between the summary stats. The histogram is effective for showing the number of data points in each section. 
+
+```{r}
+penguins %>%
+  filter(!is.na(sex)) %>%
+  ggplot() +
+  geom_point(mapping = aes(x = bill_length_mm, 
+                           y = flipper_length_mm,
+                           color = species,
+                           shape = sex)) +
+  geom_smooth(mapping = aes(x = bill_length_mm,
+                            y = flipper_length_mm,
+                            color = species),
+              method = "lm") +
+  facet_grid(island ~ sex, scales = "free") +
+  labs(title = "Flipper and Bill Lengths by Species and Sex",
+       x = "Bill Length (mm)",
+       y = "Flipper Length(mm)") +
+  theme_light()
+```
+The graph shows flipper length compared to bill length sperated by island with both species and sex indicated. geom_point provides the x and y as well as the colors for species and the shapes for sex. geom_smooth provides the gray shaded areas. Facet_grid splits the graph into the six boxes by island and sex. labs provides cleaner labels and title and theme_light is a color scheme I think.
+
+```{r}
+penguins %>%
+  filter(!is.na(sex)) %>%
+  ggplot() +
+  geom_point(mapping = aes(x = body_mass_g, 
+                           y = bill_depth_mm,
+                           color = species,
+                           shape = sex)) +
+  geom_smooth(mapping = aes(x = body_mass_g,
+                            y = bill_depth_mm,
+                            color = species),
+              method = "lm") +
+  facet_grid(island ~ sex, scales = "free") +
+  labs(title = "Body mass and Bill depth by Species and Sex",
+       x = "Body mass (g)",
+       y = "Bill depth (mm)") +
+  theme_grey()
+```
+Similar to the last graph this is body mass vs bill depth divided by species, island, and sex. Also played with the theme a bit.
+
+```{r}
+penguins%>%
+  summarise(
+  mean(bill_length_mm))
+```
+
+The average bill length for this sample of penguins is more than 45 mm. Since this is a small sample it is unlikely that we can draw a conclusion about the overall population. With only 44 observations I would not be confident in making any conclusions. 
