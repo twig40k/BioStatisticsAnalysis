@@ -20,3 +20,38 @@ exploratory_data <- training(my_data_splits)
 test_data <- testing(my_data_splits)
 ```
 
+```{r}
+exploratory_data
+  
+```
+
+How do malaria incidents change over time?
+what countries have the highest rate of incidence?
+What year had the highest rate of malaria?
+
+```{r}
+exploratory_data%>%
+  ggplot()+
+  geom_point(mapping = aes(x= Year, y = `Incidence of malaria (per 1,000 population at risk) (per 1,000 population at risk)`))
+```
+Need to set year as a catigorical in order to use a better graph.
+
+```{r}
+exploratory_data%>%
+  group_by(Year)%>%
+  summarise(mean(`Incidence of malaria (per 1,000 population at risk) (per 1,000 population at risk)`))
+```
+Mean incidents for each year. Decreaseing mean as time passes.
+
+```{r}
+exploratory_data%>%
+  ggplot()+
+  geom_boxplot(mapping = aes(x= Code, y = `Incidence of malaria (per 1,000 population at risk) (per 1,000 population at risk)`))
+
+```
+This is not useful but I am not sure how to clean it up. There are 100 contries in the total data plus some un catogrised data.
+
+
+Hypothesis
+Cases of malaria will decrease on average over the years.
+2000 will have the most cases of malaria. 
