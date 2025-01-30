@@ -1,0 +1,22 @@
+---
+title: "malaria"
+format: html
+---
+```{r}
+library(tidyverse)
+```
+
+```{r}
+malaria <- read_csv("https://raw.githubusercontent.com/rfordatascience/tidytuesday/refs/heads/main/data/2018/2018-11-13/malaria_inc.csv")
+```
+
+```{r}
+#install.packages("tidymodels")
+library(tidymodels)
+
+my_data_splits <- initial_split(malaria, prop = 0.5)
+
+exploratory_data <- training(my_data_splits)
+test_data <- testing(my_data_splits)
+```
+
