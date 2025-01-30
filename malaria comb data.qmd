@@ -1,0 +1,37 @@
+---
+title: "testing multi data"
+format: html
+---
+
+```{r}
+library(tidyverse)
+```
+```{r}
+m_cases <- read_csv("https://raw.githubusercontent.com/rfordatascience/tidytuesday/refs/heads/main/data/2018/2018-11-13/malaria_inc.csv")
+
+mal_death <- read_csv("https://raw.githubusercontent.com/rfordatascience/tidytuesday/refs/heads/main/data/2018/2018-11-13/malaria_deaths.csv")
+
+```
+
+```{r}
+mix_mal <- mal_death%>% left_join(m_cases)
+
+```
+joined deaths and cases of malaria. 
+```{r}
+gdp <- read_csv("https://raw.githubusercontent.com/twig40k/BioStatisticsAnalysis/refs/heads/main/flat-ui__data-Thu%20Jan%2030%202025.csv")
+```
+data sourced from the World Bank via https://datahub.io/core/gdp
+```{r}
+colnames(gdp)[1] = "Entity"
+colnames(gdp)[2] = "Code"
+colnames(gdp)[4] = "GDP"
+  
+```
+renamed colums to join properly with mix_mal
+
+
+```{r}
+mal_gdp <- mix_mal %>% left_join(gdp)
+```
+
