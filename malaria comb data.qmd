@@ -34,4 +34,73 @@ renamed colums to join properly with mix_mal
 ```{r}
 mal_gdp <- mix_mal %>% left_join(gdp)
 ```
+fully joined data set with case, deaths and gdp by country and year.
+```{r}
+colnames(mal_gdp)[4] ="Malaria deaths per 100,000 people"
+colnames(mal_gdp)[5] = "Malaria cases per 1,000 at risk people"
+```
 
+
+```{r}
+library(tidymodels)
+
+my_data_splits <- initial_split(mal_gdp, prop = 0.5)
+
+exploratory_data <- training(my_data_splits)
+test_data <- testing(my_data_splits)
+exploratory_data
+```
+
+
+
+
+
+How do malaria deaths change over time?
+What year had the highest death rate of malaria?
+```{r}
+death_mean <- exploratory_data%>%
+  group_by(Year)%>%
+  summarise(
+  mean(`Malaria deaths per 100,000 people`))
+
+  
+death_mean%>%
+  ggplot()+
+  geom_point(mapping = aes(x= Year, y = `mean(\`Malaria deaths per 100,000 people\`)`))+
+  labs(title = "Average malaria death per year")
+```
+This graph shows the average malaria deaths per year from the exploritory data. 
+
+
+What is the relationship between gdp and malaria deaths?
+```{r}
+exploratory_data%>%
+  ggplot()+
+  geom_point(mapping = aes(y= `Malaria deaths per 100,000 people`, x = GDP))+
+  scale_x_log10()
+```
+This graph shows malaria deaths and GDP. The x axis is scaled by log10 in order to show any definition. While it is difficult to make any conclusions based on this graph it does show that after 1e+11 GDP the odds of malaria deaths decreses signifigantly. 
+
+
+Does gdp impact the relation between deaths and cases?
+```{r}
+exploratory_data%>%
+  ggplot()+
+  geom_point(mapping = aes(x= GDP, y= `Malaria cases per 1,000 at risk people`))+
+  scale_x_log10()
+```
+This one shows the graph of cases by gdp with the same scale as previously.
+
+```{r}
+exploratory_data%>%
+  ggplot()+
+  geom_point(mapping = aes(y= `Malaria deaths per 100,000 people`, x = GDP, color = "blue"))+
+  geom_point(mapping = aes(x= GDP, y= `Malaria cases per 1,000 at risk people`, color = "red"))+
+  scale_x_log10()
+```
+
+
+
+Hypothesis
+Cases of malaria will decrease on average over the years.
+2000 will have the most cases of malaria. 
