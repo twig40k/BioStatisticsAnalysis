@@ -77,7 +77,7 @@ death_mean%>%
   geom_point(mapping = aes(x= Year, y = `mean(\`Malaria deaths per 100,000 people\`)`))+
   labs(title = "Average malaria death per year")
 ```
-This graph shows the average malaria deaths per year from the exploritory data. 
+This graph shows the average malaria deaths per year from the exploritory data. It apears that the peak for deaths is around 2002. The graph apears to be trending down however it is dificult to say for sure with just the graph. 
 
 
 What is the relationship between gdp and malaria deaths?
@@ -101,8 +101,10 @@ This one shows the graph of cases by gdp with the same scale as previously.
 
 ```{r}
 exploratory_data%>%
+  mutate(death_scaled = `Malaria deaths per 100,000 people`*100) %>%
+#converts deaths to the same scale as cases
   ggplot()+
-  geom_point(mapping = aes(y= `Malaria deaths per 100,000 people`, x = GDP ), color = "blue")+
+  geom_point(mapping = aes(y= death_scaled, x = GDP ), color = "blue")+
   geom_point(mapping = aes(x= GDP, y= `Malaria cases per 1,000 at risk people`), color = "red")+
   scale_x_log10()
 ```
