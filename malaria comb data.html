@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>testing multi data</title>
+<title>Malaria data analysis</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -79,7 +79,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">testing multi data</h1>
+<h1 class="title">Malaria data analysis</h1>
 </div>
 
 
@@ -173,6 +173,18 @@ dbl (2): Year, Value
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(mal_gdp)[<span class="dv">4</span>] <span class="ot">=</span><span class="st">"Malaria deaths per 100,000 people"</span></span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(mal_gdp)[<span class="dv">5</span>] <span class="ot">=</span> <span class="st">"Malaria cases per 1,000 at risk people"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<section id="abstract" class="level2">
+<h2 class="anchored" data-anchor-id="abstract">Abstract</h2>
+<p>This project looks at Malaria rates in the context of countries, years and gross domestic product(GDP).</p>
+</section>
+<section id="introduction" class="level2">
+<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
+<p>Malaria is a parasitic desease that is caused by members of the plasmodium genus. Plasmodium uses misquitos as an infection vector that passes to humans when the misquito feeds. Once it enter a human it will multiply in the liver before being released into the blood. When a new misquito bites an infected human it will become infected and the cycle will continue.</p>
+<p>Malaria can present as simple as a fever and headache all the way to confusion, seizures, and difficulty breathing. It is both preventable and curable. Most commonly found in tropical enviroment the WHO reports that 94% of cases are in the african region. Like most deseases children and the elderly are most vunerable to malaria.</p>
+<p>The data in this analysis comes from three sources. Both Malaria incedences and deaths comes from the Malaria Atlas Project(MAP). The MAP is an Oxford founded orginasation that works closly with the WHO to provide data analysis on Malaria. The Malaria deaths data set has a large number of contries over the period of about 25 years. The Malaria incedence data set has the same countries but only looks a handful of years. The final data set is GDPs from countries around the world as reported by the World Bank. The World Bank is a group of international orginizations that release a wide varity of economic data.</p>
+</section>
+<section id="exploration" class="level2">
+<h2 class="anchored" data-anchor-id="exploration">Exploration</h2>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidymodels)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
@@ -194,7 +206,7 @@ dbl (2): Year, Value
 ✖ dplyr::lag()      masks stats::lag()
 ✖ yardstick::spec() masks readr::spec()
 ✖ recipes::step()   masks stats::step()
-• Search for functions across packages at https://www.tidymodels.org/find/</code></pre>
+• Use tidymodels_prefer() to resolve common conflicts.</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>my_data_splits <span class="ot">&lt;-</span> <span class="fu">initial_split</span>(mal_gdp, <span class="at">prop =</span> <span class="fl">0.5</span>)</span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -205,21 +217,23 @@ dbl (2): Year, Value
 <pre><code># A tibble: 3,078 × 6
    Entity     Code   Year Malaria deaths per 1…¹ Malaria cases per 1,…²      GDP
    &lt;chr&gt;      &lt;chr&gt; &lt;dbl&gt;                  &lt;dbl&gt;                  &lt;dbl&gt;    &lt;dbl&gt;
- 1 Southern … &lt;NA&gt;   2000                 0.0109                     NA NA      
- 2 Honduras   HND    2016                 0.369                      NA  2.17e10
- 3 Zimbabwe   ZWE    2009                10.1                        NA  9.67e 9
- 4 United Ar… ARE    1994                 0.0278                     NA  5.93e10
- 5 Lebanon    LBN    2016                 0                          NA  5.11e10
- 6 Burundi    BDI    2004               144.                         NA  9.15e 8
- 7 Sweden     SWE    1993                 0                          NA  2.13e11
- 8 Montenegro MNE    1998                 0                          NA  8.54e 8
- 9 Guyana     GUY    2014                 1.81                       NA  4.13e 9
-10 Mozambique MOZ    1993               153.                         NA  2.88e 9
+ 1 Brazil     BRA    2001                 0.0796                     NA  5.60e11
+ 2 Venezuela  VEN    1992                 0.169                      NA NA      
+ 3 Philippin… PHL    1993                 1.26                       NA  6.20e10
+ 4 Australia  AUS    1997                 0                          NA  4.36e11
+ 5 Qatar      QAT    1999                 0                          NA  1.24e10
+ 6 Maldives   MDV    2005                 0                          NA  1.16e 9
+ 7 Poland     POL    1994                 0                          NA  1.11e11
+ 8 China      CHN    1996                 0.0227                     NA  8.64e11
+ 9 Tunisia    TUN    2001                 0                          NA  2.21e10
+10 Egypt      EGY    1998                 0.0107                     NA NA      
 # ℹ 3,068 more rows
 # ℹ abbreviated names: ¹​`Malaria deaths per 100,000 people`,
 #   ²​`Malaria cases per 1,000 at risk people`</code></pre>
 </div>
 </div>
+<section id="questions" class="level3">
+<h3 class="anchored" data-anchor-id="questions">Questions</h3>
 <p>How do malaria deaths change over time? What year had the highest death rate of malaria?</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>death_mean <span class="ot">&lt;-</span> exploratory_data<span class="sc">%&gt;%</span></span>
@@ -248,7 +262,7 @@ dbl (2): Year, Value
 <span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">y=</span> <span class="st">`</span><span class="at">Malaria deaths per 100,000 people</span><span class="st">`</span>, <span class="at">x =</span> GDP))<span class="sc">+</span></span>
 <span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_log10</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Warning: Removed 919 rows containing missing values or values outside the scale range
+<pre><code>Warning: Removed 898 rows containing missing values or values outside the scale range
 (`geom_point()`).</code></pre>
 </div>
 <div class="cell-output-display">
@@ -267,7 +281,7 @@ dbl (2): Year, Value
 <span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x=</span> GDP, <span class="at">y=</span> <span class="st">`</span><span class="at">Malaria cases per 1,000 at risk people</span><span class="st">`</span>))<span class="sc">+</span></span>
 <span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_log10</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Warning: Removed 2918 rows containing missing values or values outside the scale range
+<pre><code>Warning: Removed 2919 rows containing missing values or values outside the scale range
 (`geom_point()`).</code></pre>
 </div>
 <div class="cell-output-display">
@@ -282,15 +296,15 @@ dbl (2): Year, Value
 <div class="cell">
 <div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>exploratory_data<span class="sc">%&gt;%</span></span>
 <span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>()<span class="sc">+</span></span>
-<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">y=</span> <span class="st">`</span><span class="at">Malaria deaths per 100,000 people</span><span class="st">`</span>, <span class="at">x =</span> GDP, <span class="at">color =</span> <span class="st">"blue"</span>))<span class="sc">+</span></span>
-<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x=</span> GDP, <span class="at">y=</span> <span class="st">`</span><span class="at">Malaria cases per 1,000 at risk people</span><span class="st">`</span>, <span class="at">color =</span> <span class="st">"red"</span>))<span class="sc">+</span></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">y=</span> <span class="st">`</span><span class="at">Malaria deaths per 100,000 people</span><span class="st">`</span>, <span class="at">x =</span> GDP ), <span class="at">color =</span> <span class="st">"blue"</span>)<span class="sc">+</span></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x=</span> GDP, <span class="at">y=</span> <span class="st">`</span><span class="at">Malaria cases per 1,000 at risk people</span><span class="st">`</span>), <span class="at">color =</span> <span class="st">"red"</span>)<span class="sc">+</span></span>
 <span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_log10</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Warning: Removed 919 rows containing missing values or values outside the scale range
+<pre><code>Warning: Removed 898 rows containing missing values or values outside the scale range
 (`geom_point()`).</code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Warning: Removed 2918 rows containing missing values or values outside the scale range
+<pre><code>Warning: Removed 2919 rows containing missing values or values outside the scale range
 (`geom_point()`).</code></pre>
 </div>
 <div class="cell-output-display">
@@ -302,6 +316,8 @@ dbl (2): Year, Value
 </div>
 </div>
 <p>Hypothesis Cases of malaria will decrease on average over the years. 2000 will have the most cases of malaria.</p>
+</section>
+</section>
 
 </main>
 <!-- /main column -->

@@ -1,5 +1,5 @@
 ---
-title: "testing multi data"
+title: "Malaria data analysis"
 format: html
 ---
 
@@ -40,7 +40,17 @@ colnames(mal_gdp)[4] ="Malaria deaths per 100,000 people"
 colnames(mal_gdp)[5] = "Malaria cases per 1,000 at risk people"
 ```
 
+## Abstract 
+This project looks at Malaria rates in the context of countries, years and gross domestic product(GDP). 
 
+## Introduction
+Malaria is a parasitic desease that is caused by members of the plasmodium genus. Plasmodium uses misquitos as an infection vector that passes to humans when the misquito feeds. Once it enter a human it will multiply in the liver before being released into the blood. When a new misquito bites an infected human it will become infected and the cycle will continue. 
+
+Malaria can present as simple as a fever and headache all the way to confusion, seizures, and difficulty breathing. It is both preventable and curable. Most commonly found in tropical enviroment the WHO reports that 94% of cases are in the african region. Like most deseases children and the elderly are most vunerable to malaria. 
+
+The data in this analysis comes from three sources. Both Malaria incedences and deaths comes from the Malaria Atlas Project(MAP). The MAP is an Oxford founded orginasation that works closly with the WHO to provide data analysis on Malaria. The Malaria deaths data set has a large number of contries over the period of about 25 years. The Malaria incedence data set has the same countries but only looks a handful of years. The final data set is GDPs from countries around the world as reported by the World Bank. The World Bank is a group of international orginizations that release a wide varity of economic data. 
+
+## Exploration
 ```{r}
 library(tidymodels)
 
@@ -52,9 +62,7 @@ exploratory_data
 ```
 
 
-
-
-
+### Questions
 How do malaria deaths change over time?
 What year had the highest death rate of malaria?
 ```{r}
@@ -94,8 +102,8 @@ This one shows the graph of cases by gdp with the same scale as previously.
 ```{r}
 exploratory_data%>%
   ggplot()+
-  geom_point(mapping = aes(y= `Malaria deaths per 100,000 people`, x = GDP, color = "blue"))+
-  geom_point(mapping = aes(x= GDP, y= `Malaria cases per 1,000 at risk people`, color = "red"))+
+  geom_point(mapping = aes(y= `Malaria deaths per 100,000 people`, x = GDP ), color = "blue")+
+  geom_point(mapping = aes(x= GDP, y= `Malaria cases per 1,000 at risk people`), color = "red")+
   scale_x_log10()
 ```
 
