@@ -58,7 +58,6 @@ my_data_splits <- initial_split(mal_gdp, prop = 0.5)
 
 exploratory_data <- training(my_data_splits)
 test_data <- testing(my_data_splits)
-exploratory_data
 ```
 
 
@@ -111,6 +110,44 @@ exploratory_data%>%
 
 
 
-Hypothesis
-Cases of malaria will decrease on average over the years.
-2000 will have the most cases of malaria. 
+## Hypothesis
+Cases and deaths of malaria will decrease on average over the years.
+Earlier years will have the most cases and deaths of malaria. 
+As the GDP increases the deaths and cases will decrease. 
+As GDP increases the deaths to cases ratio will decrease.
+
+
+### Methodology 
+How do malaria deaths change over time?
+What year had the highest death rate of malaria?
+```{r}
+death_mean <- mal_gdp%>%
+  group_by(Year)%>%
+  summarise(
+  mean(`Malaria deaths per 100,000 people`))
+
+  
+death_mean%>%
+  ggplot()+
+  geom_point(mapping = aes(x= Year, y = `mean(\`Malaria deaths per 100,000 people\`)`))+
+  labs(title = "Average malaria death per year")
+```
+This graph show the average malaria deaths world wide per year. It shows a very clear trend of decreaseing around 2003. Acording to (Cibulskis et al) this roughly coincides to a global increase in anti malaria funding. This funding resulted in pestices and treatments being used in areas with high malaria rates that could not afford previously. The WHO was at the fore front of this effort and contitue their work to this day.
+
+
+What is the relationship between gdp and malaria deaths?
+```{r}
+mal_gdp%>%
+  filter(`Malaria deaths per 100,000 people` > 1) %>%
+  ggplot()+
+  geom_point(mapping = aes(y= `Malaria deaths per 100,000 people`, x = GDP))+
+  scale_x_log10()
+
+
+mal_lm <- lm(`Malaria deaths per 100,000 people`~GDP, mal_gdp )
+summary(mal_lm)
+```
+This graph shows malaria deaths and GDP. The x axis is scaled by log10 in order to show any definition. Countries that have less than 100,000 are filtered out for clarity. This graph does not show much of a corilation between deaths and GDP. This lack of connection hopefuly means that access to the recources required to prevent malaria deaths is not based on a countries wealth.
+
+
+
