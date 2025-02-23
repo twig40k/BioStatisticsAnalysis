@@ -161,27 +161,27 @@ dbl (2): Year, Value
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(gdp)[<span class="dv">2</span>] <span class="ot">=</span> <span class="st">"Code"</span></span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(gdp)[<span class="dv">4</span>] <span class="ot">=</span> <span class="st">"GDP"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>renamed colums to join properly with mix_mal</p>
+<p>renamed columns to join properly with mix_mal</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>mal_gdp <span class="ot">&lt;-</span> mix_mal <span class="sc">%&gt;%</span> <span class="fu">left_join</span>(gdp)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Joining with `by = join_by(Entity, Code, Year)`</code></pre>
 </div>
 </div>
-<p>fully joined data set with case, deaths and gdp by country and year.</p>
+<p>fully joined data set with case, deaths and GDP by country and year.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(mal_gdp)[<span class="dv">4</span>] <span class="ot">=</span><span class="st">"Malaria deaths per 100,000 people"</span></span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(mal_gdp)[<span class="dv">5</span>] <span class="ot">=</span> <span class="st">"Malaria cases per 1,000 at risk people"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <section id="abstract" class="level2">
 <h2 class="anchored" data-anchor-id="abstract">Abstract</h2>
-<p>This project looks at Malaria rates in the context of countries, years and gross domestic product(GDP).</p>
+<p>This project looks at Malaria rates in the context of countries, years and gross domestic product (GDP). Malaria has been the cause of many deaths over human history and in the modern era it should be preventable. Through this data, conclusions about how GDP effects malaria deaths will be drawn.</p>
 </section>
 <section id="introduction" class="level2">
 <h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
-<p>Malaria is a parasitic desease that is caused by members of the plasmodium genus. Plasmodium uses misquitos as an infection vector that passes to humans when the misquito feeds. Once it enter a human it will multiply in the liver before being released into the blood. When a new misquito bites an infected human it will become infected and the cycle will continue.</p>
-<p>Malaria can present as simple as a fever and headache all the way to confusion, seizures, and difficulty breathing. It is both preventable and curable. Most commonly found in tropical enviroment the WHO reports that 94% of cases are in the african region. Like most deseases children and the elderly are most vunerable to malaria.</p>
-<p>The data in this analysis comes from three sources. Both Malaria incedences and deaths comes from the Malaria Atlas Project(MAP). The MAP is an Oxford founded orginasation that works closly with the WHO to provide data analysis on Malaria. The Malaria deaths data set has a large number of contries over the period of about 25 years. The Malaria incedence data set has the same countries but only looks a handful of years. The final data set is GDPs from countries around the world as reported by the World Bank. The World Bank is a group of international orginizations that release a wide varity of economic data.</p>
+<p>Malaria is a parasitic disease that is caused by members of the plasmodium genus. Plasmodium uses mosquito as an infection vector that passes to humans when the mosquito feeds. Once it enters a human, it will multiply in the liver before being released into the blood. When a new mosquito bites an infected human, it will become infected and the cycle will continue.</p>
+<p>Malaria can present as simple as a fever and headache all the way to confusion, seizures, and difficulty breathing. It is both preventable and curable. Most commonly found in tropical environment, the WHO reports that 94% of cases are in the African region. Like most diseases, children and the elderly are most vulnerable to malaria.</p>
+<p>The data in this analysis comes from three sources. Both Malaria incidences and deaths comes from the Malaria Atlas Project(MAP). The MAP is an Oxford founded organization that works closely with the WHO to provide data analysis on Malaria. The Malaria deaths data set has a large number of countries over the period of about 25 years. The Malaria incidence data set has the same countries but only looks a handful of years. The final data set is GDPs from countries around the world as reported by the World Bank. The World Bank is a group of international organizations that release a wide variety of economic data.</p>
 </section>
 <section id="exploration" class="level2">
 <h2 class="anchored" data-anchor-id="exploration">Exploration</h2>
@@ -206,7 +206,7 @@ dbl (2): Year, Value
 ✖ dplyr::lag()      masks stats::lag()
 ✖ yardstick::spec() masks readr::spec()
 ✖ recipes::step()   masks stats::step()
-• Search for functions across packages at https://www.tidymodels.org/find/</code></pre>
+• Learn how to get started at https://www.tidymodels.org/start/</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>my_data_splits <span class="ot">&lt;-</span> <span class="fu">initial_split</span>(mal_gdp, <span class="at">prop =</span> <span class="fl">0.5</span>)</span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -235,15 +235,15 @@ dbl (2): Year, Value
 </div>
 </div>
 </div>
-<p>This graph shows the average malaria deaths per year from the exploritory data. It apears that the peak for deaths is around 2002. The graph apears to be trending down however it is dificult to say for sure with just the graph.</p>
-<p>What is the relationship between gdp and malaria deaths?</p>
+<p>This graph shows the average malaria deaths per year from the exploratory data. It appears that the peak for deaths is around 2002. The graph appears to be trending down however it is difficult to say for sure with just the graph.</p>
+<p>What is the relationship between GDP and malaria deaths?</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>exploratory_data<span class="sc">%&gt;%</span></span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>()<span class="sc">+</span></span>
 <span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">y=</span> <span class="st">`</span><span class="at">Malaria deaths per 100,000 people</span><span class="st">`</span>, <span class="at">x =</span> GDP))<span class="sc">+</span></span>
 <span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_log10</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Warning: Removed 882 rows containing missing values or values outside the scale range
+<pre><code>Warning: Removed 900 rows containing missing values or values outside the scale range
 (`geom_point()`).</code></pre>
 </div>
 <div class="cell-output-display">
@@ -254,15 +254,15 @@ dbl (2): Year, Value
 </div>
 </div>
 </div>
-<p>This graph shows malaria deaths and GDP. The x axis is scaled by log10 in order to show any definition. While it is difficult to make any conclusions based on this graph it does show that after 1e+11 GDP the odds of malaria deaths decreses signifigantly.</p>
-<p>Does gdp impact the relation between deaths and cases?</p>
+<p>This graph shows malaria deaths and GDP. The x axis is scaled by log10 in order to show any definition. While it is difficult to make any conclusions based on this graph, it does show that after 1e+11 GDP the odds of malaria deaths decreases significantly.</p>
+<p>Does GDP impact the relation between deaths and cases?</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>exploratory_data<span class="sc">%&gt;%</span></span>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>()<span class="sc">+</span></span>
 <span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x=</span> GDP, <span class="at">y=</span> <span class="st">`</span><span class="at">Malaria cases per 1,000 at risk people</span><span class="st">`</span>))<span class="sc">+</span></span>
 <span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_log10</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Warning: Removed 2921 rows containing missing values or values outside the scale range
+<pre><code>Warning: Removed 2910 rows containing missing values or values outside the scale range
 (`geom_point()`).</code></pre>
 </div>
 <div class="cell-output-display">
@@ -273,7 +273,7 @@ dbl (2): Year, Value
 </div>
 </div>
 </div>
-<p>This one shows the graph of cases by gdp with the same scale as previously.</p>
+<p>This one shows the graph of cases by GDP with the same scale as previously described.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>exploratory_data<span class="sc">%&gt;%</span></span>
 <span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">death_scaled =</span> <span class="st">`</span><span class="at">Malaria deaths per 100,000 people</span><span class="st">`</span><span class="sc">*</span><span class="dv">100</span>) <span class="sc">%&gt;%</span></span>
@@ -283,11 +283,11 @@ dbl (2): Year, Value
 <span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x=</span> GDP, <span class="at">y=</span> <span class="st">`</span><span class="at">Malaria cases per 1,000 at risk people</span><span class="st">`</span>), <span class="at">color =</span> <span class="st">"red"</span>)<span class="sc">+</span></span>
 <span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_log10</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Warning: Removed 882 rows containing missing values or values outside the scale range
+<pre><code>Warning: Removed 900 rows containing missing values or values outside the scale range
 (`geom_point()`).</code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Warning: Removed 2921 rows containing missing values or values outside the scale range
+<pre><code>Warning: Removed 2910 rows containing missing values or values outside the scale range
 (`geom_point()`).</code></pre>
 </div>
 <div class="cell-output-display">
@@ -305,6 +305,7 @@ dbl (2): Year, Value
 <p>Cases and deaths of malaria will decrease on average over the years. Earlier years will have the most cases and deaths of malaria. As the GDP increases the deaths and cases will decrease. As GDP increases the deaths to cases ratio will decrease.</p>
 <section id="methodology" class="level3">
 <h3 class="anchored" data-anchor-id="methodology">Methodology</h3>
+<p>This section will take a more in depth look at the questions and hypotheses using the full data set. As most of these questions are about relations between variables, I will be using linear regressions in order to make conclusions about the relationships. This should be effective because most of the hypothesized questions should have a negative relation between variables seeing as we know that the threat of malaria has decreased over the years.</p>
 <p>How do malaria deaths change over time? What year had the highest death rate of malaria?</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>death_mean <span class="ot">&lt;-</span> mal_gdp<span class="sc">%&gt;%</span></span>
@@ -316,7 +317,8 @@ dbl (2): Year, Value
 <span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>death_mean<span class="sc">%&gt;%</span></span>
 <span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>()<span class="sc">+</span></span>
 <span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x=</span> Year, <span class="at">y =</span> <span class="st">`</span><span class="at">mean(\</span><span class="st">`</span>Malaria deaths per <span class="dv">100</span>,<span class="dv">000</span> people\<span class="st">`</span><span class="at">)</span><span class="st">`</span>))<span class="sc">+</span></span>
-<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Average malaria death per year"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Average malaria death per year"</span>)<span class="sc">+</span></span>
+<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">"Mean Malaria deaths per 100,000 people"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -325,16 +327,25 @@ dbl (2): Year, Value
 </div>
 </div>
 </div>
-<p>This graph show the average malaria deaths world wide per year. It shows a very clear trend of decreaseing around 2003. Acording to (Cibulskis et al) this roughly coincides to a global increase in anti malaria funding. This funding resulted in pestices and treatments being used in areas with high malaria rates that could not afford previously. The WHO was at the fore front of this effort and contitue their work to this day.</p>
-<p>What is the relationship between gdp and malaria deaths?</p>
+<p>This graph shows the average malaria deaths world wide per year. It shows a very clear trend of decreasing beginning around 2003. According to Cibulskis et al, this roughly coincides to a global increase in anti malaria funding. This funding resulted in pesticides and treatments being used in areas with high malaria rates that could not afford previously. The WHO was at the fore front of this effort and continue their work to this day. It also shows that malaria deaths were on the rise until 2003 which is contrary to what I would expect.</p>
+<p>What is the relationship between GDP and malaria deaths?</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>mal_gdp<span class="sc">%&gt;%</span></span>
-<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="st">`</span><span class="at">Malaria deaths per 100,000 people</span><span class="st">`</span> <span class="sc">&gt;</span> <span class="dv">1</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a> <span class="co"># filter(`Malaria deaths per 100,000 people` &gt; 1) %&gt;%</span></span>
 <span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>()<span class="sc">+</span></span>
 <span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">y=</span> <span class="st">`</span><span class="at">Malaria deaths per 100,000 people</span><span class="st">`</span>, <span class="at">x =</span> GDP))<span class="sc">+</span></span>
-<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_log10</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_log10</span>()<span class="sc">+</span></span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">y=</span> <span class="st">`</span><span class="at">Malaria deaths per 100,000 people</span><span class="st">`</span>, <span class="at">x =</span> GDP), <span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">col =</span> <span class="st">"red"</span>)<span class="sc">+</span></span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Malaria deaths and GDP"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Warning: Removed 461 rows containing missing values or values outside the scale range
+<pre><code>`geom_smooth()` using formula = 'y ~ x'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Removed 1776 rows containing non-finite outside the scale range
+(`stat_smooth()`).</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Removed 1776 rows containing missing values or values outside the scale range
 (`geom_point()`).</code></pre>
 </div>
 <div class="cell-output-display">
@@ -344,8 +355,8 @@ dbl (2): Year, Value
 </figure>
 </div>
 </div>
-<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>mal_lm <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="st">`</span><span class="at">Malaria deaths per 100,000 people</span><span class="st">`</span><span class="sc">~</span>GDP, mal_gdp )</span>
-<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mal_lm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>mal_lm <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="st">`</span><span class="at">Malaria deaths per 100,000 people</span><span class="st">`</span><span class="sc">~</span>GDP, mal_gdp )</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mal_lm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Call:
@@ -368,7 +379,52 @@ Multiple R-squared:  0.008672,  Adjusted R-squared:  0.008446
 F-statistic:  38.3 on 1 and 4378 DF,  p-value: 6.625e-10</code></pre>
 </div>
 </div>
-<p>This graph shows malaria deaths and GDP. The x axis is scaled by log10 in order to show any definition. Countries that have less than 100,000 are filtered out for clarity. This graph does not show much of a corilation between deaths and GDP. This lack of connection hopefuly means that access to the recources required to prevent malaria deaths is not based on a countries wealth.</p>
+<p>This graph shows malaria deaths and GDP. The x axis is scaled by log10 in order to show any definition. This graph does not show much of a correlation between deaths and GDP. Attempting to run a linear regression generates an R squared value of .0084 which means that the best fit line is not a good fit. This lack of connection hopefully means that access to the resources required to prevent malaria deaths is not based on a country’s wealth. I believe that this might show more clear data if the scope was narrowed down. As it stands currently there are many countries that are not effected by malaria(ex Canada) that are shifting the average towards zero. If we looked at only countries that are at risk of malaria, it might show a stronger trend.</p>
+<p>Does GDP impact the relation between deaths and cases?</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>mal_gdp<span class="sc">%&gt;%</span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">ratio =</span> (<span class="st">`</span><span class="at">Malaria deaths per 100,000 people</span><span class="st">`</span><span class="sc">*</span><span class="dv">100</span>)<span class="sc">/</span><span class="st">`</span><span class="at">Malaria cases per 1,000 at risk people</span><span class="st">`</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>  <span class="co">#scales deaths to cases and then makes a ratio of the two</span></span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>()<span class="sc">+</span></span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x=</span> GDP, <span class="at">y =</span> ratio))<span class="sc">+</span></span>
+<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_log10</span>()<span class="sc">+</span></span>
+<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_log10</span>()<span class="sc">+</span></span>
+<span id="cb35-8"><a href="#cb35-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">y=</span> ratio, <span class="at">x =</span> GDP), <span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">col =</span> <span class="st">"red"</span>) <span class="sc">+</span></span>
+<span id="cb35-9"><a href="#cb35-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Ratio of malaria deaths to cases by country GDP"</span>)<span class="sc">+</span></span>
+<span id="cb35-10"><a href="#cb35-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">"Malaria deaths/malaria cases"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`geom_smooth()` using formula = 'y ~ x'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Removed 5834 rows containing non-finite outside the scale range
+(`stat_smooth()`).</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Removed 5827 rows containing missing values or values outside the scale range
+(`geom_point()`).</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="malaria-comb-data_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="co">#mal_gdp %&gt;%</span></span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a> <span class="co"># mutate(ratio = (`Malaria deaths per 100,000 people`*100)/`Malaria cases per 1,000 at risk people`) %&gt;%</span></span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>  <span class="co">#scales deaths to cases and then makes a ratio of the two</span></span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a>  <span class="co">#filter(ratio &gt; 0) %&gt;%</span></span>
+<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a>  <span class="co">#attempt to get rid of NA values</span></span>
+<span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a>  <span class="co">#lm(ratio ~ GDP, data = . ) %&gt;%</span></span>
+<span id="cb39-7"><a href="#cb39-7" aria-hidden="true" tabindex="-1"></a>  <span class="co">#summary()</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Unfortunately this graph shows a limitation of the data sets used. It is graphing the ratio of malaria deaths/malaria cases over the GDP. In theory, the number of deaths from malaria in a country should never be able to exceed the number of case but this graph shows that most points are much higher than 1. It is my belief that this problem arises from the fact that the cases are measured by “1000 at risk people” while deaths is looking at total deaths. Even with these limitations, a linear regression shows very little correlation between the ratio and GDP. In order to show definition, both the x and y axis have been scaled by log10.</p>
+</section>
+<section id="conclusion" class="level3">
+<h3 class="anchored" data-anchor-id="conclusion">Conclusion</h3>
+<p>This report looks at Malaria deaths, cases and GDP across many different counties and years. It attempts to find a correlation between these factors using graphing and linear regressions. It looked at changes in malaria deaths over time, the relationship between GDP and deaths, and the correlation of deaths cases and GDP. While it was possible to show that Malaria deaths have decreased in recent years, it was not possible to show strong relations for either of the other topics. This is due in part to having a very diverse data set that includes many countries that are less impacted by malaria. It was also hindered by the malaria cases data set that had fewer data points than the other two data sets as well as not matching the scale of the malaria deaths data.</p>
+<p>Future studies will want to look at a more complete record of cases. They might also want to narrow the scope to the African region as it is the most impacted by malaria and hopefully shows stronger negative trends. This data set also ends in 2016, so it might be interesting to see what has changed in the past 9 years.</p>
+<p>As this data was part of a data challenge, it did not have any sort of record of how the data was acquired which I would have liked to know in order to contextualize the data.</p>
 </section>
 </section>
 

@@ -28,27 +28,27 @@ colnames(gdp)[2] = "Code"
 colnames(gdp)[4] = "GDP"
   
 ```
-renamed colums to join properly with mix_mal
+renamed columns to join properly with mix_mal
 
 
 ```{r}
 mal_gdp <- mix_mal %>% left_join(gdp)
 ```
-fully joined data set with case, deaths and gdp by country and year.
+fully joined data set with case, deaths and GDP by country and year.
 ```{r}
 colnames(mal_gdp)[4] ="Malaria deaths per 100,000 people"
 colnames(mal_gdp)[5] = "Malaria cases per 1,000 at risk people"
 ```
 
 ## Abstract 
-This project looks at Malaria rates in the context of countries, years and gross domestic product(GDP). 
+This project looks at Malaria rates in the context of countries, years and gross domestic product (GDP). Malaria has been the cause of many deaths over human history and in the modern era it should be preventable. Through this data, conclusions about how GDP effects malaria deaths will be drawn. 
 
 ## Introduction
-Malaria is a parasitic desease that is caused by members of the plasmodium genus. Plasmodium uses misquitos as an infection vector that passes to humans when the misquito feeds. Once it enter a human it will multiply in the liver before being released into the blood. When a new misquito bites an infected human it will become infected and the cycle will continue. 
+Malaria is a parasitic disease that is caused by members of the plasmodium genus. Plasmodium uses mosquito as an infection vector that passes to humans when the mosquito feeds. Once it enters a human, it will multiply in the liver before being released into the blood. When a new mosquito bites an infected human, it will become infected and the cycle will continue. 
 
-Malaria can present as simple as a fever and headache all the way to confusion, seizures, and difficulty breathing. It is both preventable and curable. Most commonly found in tropical enviroment the WHO reports that 94% of cases are in the african region. Like most deseases children and the elderly are most vunerable to malaria. 
+Malaria can present as simple as a fever and headache all the way to confusion, seizures, and difficulty breathing. It is both preventable and curable. Most commonly found in tropical environment, the WHO reports that 94% of cases are in the African region. Like most diseases, children and the elderly are most vulnerable to malaria. 
 
-The data in this analysis comes from three sources. Both Malaria incedences and deaths comes from the Malaria Atlas Project(MAP). The MAP is an Oxford founded orginasation that works closly with the WHO to provide data analysis on Malaria. The Malaria deaths data set has a large number of contries over the period of about 25 years. The Malaria incedence data set has the same countries but only looks a handful of years. The final data set is GDPs from countries around the world as reported by the World Bank. The World Bank is a group of international orginizations that release a wide varity of economic data. 
+The data in this analysis comes from three sources. Both Malaria incidences and deaths comes from the Malaria Atlas Project(MAP). The MAP is an Oxford founded organization that works closely with the WHO to provide data analysis on Malaria. The Malaria deaths data set has a large number of countries over the period of about 25 years. The Malaria incidence data set has the same countries but only looks a handful of years. The final data set is GDPs from countries around the world as reported by the World Bank. The World Bank is a group of international organizations that release a wide variety of economic data. 
 
 ## Exploration
 ```{r}
@@ -76,27 +76,27 @@ death_mean%>%
   geom_point(mapping = aes(x= Year, y = `mean(\`Malaria deaths per 100,000 people\`)`))+
   labs(title = "Average malaria death per year")
 ```
-This graph shows the average malaria deaths per year from the exploritory data. It apears that the peak for deaths is around 2002. The graph apears to be trending down however it is dificult to say for sure with just the graph. 
+This graph shows the average malaria deaths per year from the exploratory data. It appears that the peak for deaths is around 2002. The graph appears to be trending down however it is difficult to say for sure with just the graph. 
 
 
-What is the relationship between gdp and malaria deaths?
+What is the relationship between GDP and malaria deaths?
 ```{r}
 exploratory_data%>%
   ggplot()+
   geom_point(mapping = aes(y= `Malaria deaths per 100,000 people`, x = GDP))+
   scale_x_log10()
 ```
-This graph shows malaria deaths and GDP. The x axis is scaled by log10 in order to show any definition. While it is difficult to make any conclusions based on this graph it does show that after 1e+11 GDP the odds of malaria deaths decreses signifigantly. 
+This graph shows malaria deaths and GDP. The x axis is scaled by log10 in order to show any definition. While it is difficult to make any conclusions based on this graph, it does show that after 1e+11 GDP the odds of malaria deaths decreases significantly. 
 
 
-Does gdp impact the relation between deaths and cases?
+Does GDP impact the relation between deaths and cases?
 ```{r}
 exploratory_data%>%
   ggplot()+
   geom_point(mapping = aes(x= GDP, y= `Malaria cases per 1,000 at risk people`))+
   scale_x_log10()
 ```
-This one shows the graph of cases by gdp with the same scale as previously.
+This one shows the graph of cases by GDP with the same scale as previously described.
 
 ```{r}
 exploratory_data%>%
@@ -118,6 +118,8 @@ As GDP increases the deaths to cases ratio will decrease.
 
 
 ### Methodology 
+This section will take a more in depth look at the questions and hypotheses using the full data set. As most of these questions are about relations between variables, I will be using linear regressions in order to make conclusions about the relationships. This should be effective because most of the hypothesized questions should have a negative relation between variables seeing as we know that the threat of malaria has decreased over the years.
+
 How do malaria deaths change over time?
 What year had the highest death rate of malaria?
 ```{r}
@@ -130,24 +132,58 @@ death_mean <- mal_gdp%>%
 death_mean%>%
   ggplot()+
   geom_point(mapping = aes(x= Year, y = `mean(\`Malaria deaths per 100,000 people\`)`))+
-  labs(title = "Average malaria death per year")
+  labs(title = "Average malaria death per year")+
+  ylab("Mean Malaria deaths per 100,000 people")
+
+
 ```
-This graph show the average malaria deaths world wide per year. It shows a very clear trend of decreaseing around 2003. Acording to (Cibulskis et al) this roughly coincides to a global increase in anti malaria funding. This funding resulted in pestices and treatments being used in areas with high malaria rates that could not afford previously. The WHO was at the fore front of this effort and contitue their work to this day.
+This graph shows the average malaria deaths world wide per year. It shows a very clear trend of decreasing beginning around 2003. According to Cibulskis et al, this roughly coincides to a global increase in anti malaria funding. This funding resulted in pesticides and treatments being used in areas with high malaria rates that could not afford previously. The WHO was at the fore front of this effort and continue their work to this day. It also shows that malaria deaths were on the rise until 2003 which is contrary to what I would expect.
 
 
-What is the relationship between gdp and malaria deaths?
+What is the relationship between GDP and malaria deaths?
 ```{r}
 mal_gdp%>%
-  filter(`Malaria deaths per 100,000 people` > 1) %>%
+ # filter(`Malaria deaths per 100,000 people` > 1) %>%
   ggplot()+
   geom_point(mapping = aes(y= `Malaria deaths per 100,000 people`, x = GDP))+
-  scale_x_log10()
+  scale_x_log10()+
+  geom_smooth(mapping = aes(y= `Malaria deaths per 100,000 people`, x = GDP), method = "lm", col = "red")+
+  labs(title = "Malaria deaths and GDP")
 
 
 mal_lm <- lm(`Malaria deaths per 100,000 people`~GDP, mal_gdp )
 summary(mal_lm)
 ```
-This graph shows malaria deaths and GDP. The x axis is scaled by log10 in order to show any definition. Countries that have less than 100,000 are filtered out for clarity. This graph does not show much of a corilation between deaths and GDP. This lack of connection hopefuly means that access to the recources required to prevent malaria deaths is not based on a countries wealth.
+This graph shows malaria deaths and GDP. The x axis is scaled by log10 in order to show any definition. This graph does not show much of a correlation between deaths and GDP. Attempting to run a linear regression generates an R squared value of .0084 which means that the best fit line is not a good fit. This lack of connection hopefully means that access to the resources required to prevent malaria deaths is not based on a country's wealth. I believe that this might show more clear data if the scope was narrowed down. As it stands currently there are many countries that are not effected by malaria(ex Canada) that are shifting the average towards zero. If we looked at only countries that are at risk of malaria, it might show a stronger trend. 
 
 
+Does GDP impact the relation between deaths and cases?
+```{r}
+mal_gdp%>%
+  mutate(ratio = (`Malaria deaths per 100,000 people`*100)/`Malaria cases per 1,000 at risk people`) %>%
+  #scales deaths to cases and then makes a ratio of the two
+  ggplot()+
+  geom_point(mapping = aes(x= GDP, y = ratio))+
+  scale_x_log10()+
+  scale_y_log10()+
+  geom_smooth(mapping = aes(y= ratio, x = GDP), method = "lm", col = "red") +
+  labs(title = "Ratio of malaria deaths to cases by country GDP")+
+  ylab("Malaria deaths/malaria cases")
+
+#mal_gdp %>%
+ # mutate(ratio = (`Malaria deaths per 100,000 people`*100)/`Malaria cases per 1,000 at risk people`) %>%
+  #scales deaths to cases and then makes a ratio of the two
+  #filter(ratio > 0) %>%
+  #attempt to get rid of NA values
+  #lm(ratio ~ GDP, data = . ) %>%
+  #summary()
+```
+Unfortunately this graph shows a limitation of the data sets used. It is graphing the ratio of malaria deaths/malaria cases over the GDP. In theory, the number of deaths from malaria in a country should never be able to exceed the number of case but this graph shows that most points are much higher than 1. It is my belief that this problem arises from the fact that the cases are measured by "1000 at risk people" while deaths is looking at total deaths. Even with these limitations, a linear regression shows very little correlation between the ratio and GDP. In order to show definition, both the x and y axis have been scaled by log10.
+
+### Conclusion 
+This report looks at Malaria deaths, cases and GDP across many different counties and years. It attempts to find a correlation between these factors using graphing and linear regressions. It looked at changes in malaria deaths over time, the relationship between GDP and deaths, and the correlation of deaths cases and GDP. While it was possible to show that Malaria deaths have decreased in recent years, it was not possible to show strong relations for either of the other topics. This is due in part to having a very diverse data set that includes many countries that are less impacted by malaria. It was also hindered by the malaria cases data set that had fewer data points than the other two data sets as well as not matching the scale of the malaria deaths data. 
+
+Future studies will want to look at a more complete record of cases. They might also want to narrow the scope to the African region as it is the most impacted by malaria and hopefully shows stronger negative trends. This data set also ends in 2016, so it might be interesting to see what has changed in the past 9 years.
+
+As this data was part of a data challenge, it did not have any sort of record of how the data was acquired which I would have liked to know in order to contextualize the data.
 
