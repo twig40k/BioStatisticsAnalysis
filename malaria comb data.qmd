@@ -170,15 +170,16 @@ mal_gdp%>%
   labs(title = "Ratio of malaria deaths to cases by country GDP")+
   ylab("Malaria deaths/malaria cases")
 
-#mal_gdp %>%
- # mutate(ratio = (`Malaria deaths per 100,000 people`*100)/`Malaria cases per 1,000 at risk people`) %>%
+lm_mal_gdp <- mal_gdp %>%
+  mutate(ratio = (`Malaria deaths per 100,000 people`*100)/`Malaria cases per 1,000 at risk people`) %>%
   #scales deaths to cases and then makes a ratio of the two
-  #filter(ratio > 0) %>%
+  filter(ratio > 0, ratio < 9999999999999999999) 
   #attempt to get rid of NA values
-  #lm(ratio ~ GDP, data = . ) %>%
-  #summary()
+
+lm(ratio ~ GDP, data = lm_mal_gdp ) %>%
+  summary()
 ```
-Unfortunately this graph shows a limitation of the data sets used. It is graphing the ratio of malaria deaths/malaria cases over the GDP. In theory, the number of deaths from malaria in a country should never be able to exceed the number of case but this graph shows that most points are much higher than 1. It is my belief that this problem arises from the fact that the cases are measured by "1000 at risk people" while deaths is looking at total deaths. Even with these limitations, a linear regression shows very little correlation between the ratio and GDP. In order to show definition, both the x and y axis have been scaled by log10.
+Unfortunately this graph shows a limitation of the data sets used. It is graphing the ratio of malaria deaths/malaria cases over the GDP. In theory, the number of deaths from malaria in a country should never be able to exceed the number of case but this graph shows that most points are much higher than 1. It is my belief that this problem arises from the fact that the cases are measured by "1000 at risk people" while deaths is looking at total deaths. Even with these limitations, a linear regression shows very little correlation between the ratio and GDP. The R squared value is .5373 which is not the worst and means that the regression is not a terrible fit to the data. This agrees with the observation that the ratio of deaths to cases does not seem to be heavily effected by the GDP. In order to show definition, both the x and y axis have been scaled by log10.
 
 ### Conclusion 
 This report looks at Malaria deaths, cases and GDP across many different counties and years. It attempts to find a correlation between these factors using graphing and linear regressions. It looked at changes in malaria deaths over time, the relationship between GDP and deaths, and the correlation of deaths cases and GDP. While it was possible to show that Malaria deaths have decreased in recent years, it was not possible to show strong relations for either of the other topics. This is due in part to having a very diverse data set that includes many countries that are less impacted by malaria. It was also hindered by the malaria cases data set that had fewer data points than the other two data sets as well as not matching the scale of the malaria deaths data. 

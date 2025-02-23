@@ -206,7 +206,7 @@ dbl (2): Year, Value
 ✖ dplyr::lag()      masks stats::lag()
 ✖ yardstick::spec() masks readr::spec()
 ✖ recipes::step()   masks stats::step()
-• Learn how to get started at https://www.tidymodels.org/start/</code></pre>
+• Use tidymodels_prefer() to resolve common conflicts.</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>my_data_splits <span class="ot">&lt;-</span> <span class="fu">initial_split</span>(mal_gdp, <span class="at">prop =</span> <span class="fl">0.5</span>)</span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -243,7 +243,7 @@ dbl (2): Year, Value
 <span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">y=</span> <span class="st">`</span><span class="at">Malaria deaths per 100,000 people</span><span class="st">`</span>, <span class="at">x =</span> GDP))<span class="sc">+</span></span>
 <span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_log10</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Warning: Removed 900 rows containing missing values or values outside the scale range
+<pre><code>Warning: Removed 859 rows containing missing values or values outside the scale range
 (`geom_point()`).</code></pre>
 </div>
 <div class="cell-output-display">
@@ -262,7 +262,7 @@ dbl (2): Year, Value
 <span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x=</span> GDP, <span class="at">y=</span> <span class="st">`</span><span class="at">Malaria cases per 1,000 at risk people</span><span class="st">`</span>))<span class="sc">+</span></span>
 <span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_log10</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Warning: Removed 2910 rows containing missing values or values outside the scale range
+<pre><code>Warning: Removed 2907 rows containing missing values or values outside the scale range
 (`geom_point()`).</code></pre>
 </div>
 <div class="cell-output-display">
@@ -283,11 +283,11 @@ dbl (2): Year, Value
 <span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x=</span> GDP, <span class="at">y=</span> <span class="st">`</span><span class="at">Malaria cases per 1,000 at risk people</span><span class="st">`</span>), <span class="at">color =</span> <span class="st">"red"</span>)<span class="sc">+</span></span>
 <span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_log10</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Warning: Removed 900 rows containing missing values or values outside the scale range
+<pre><code>Warning: Removed 859 rows containing missing values or values outside the scale range
 (`geom_point()`).</code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Warning: Removed 2910 rows containing missing values or values outside the scale range
+<pre><code>Warning: Removed 2907 rows containing missing values or values outside the scale range
 (`geom_point()`).</code></pre>
 </div>
 <div class="cell-output-display">
@@ -410,15 +410,37 @@ F-statistic:  38.3 on 1 and 4378 DF,  p-value: 6.625e-10</code></pre>
 </figure>
 </div>
 </div>
-<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="co">#mal_gdp %&gt;%</span></span>
-<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a> <span class="co"># mutate(ratio = (`Malaria deaths per 100,000 people`*100)/`Malaria cases per 1,000 at risk people`) %&gt;%</span></span>
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>lm_mal_gdp <span class="ot">&lt;-</span> mal_gdp <span class="sc">%&gt;%</span></span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">ratio =</span> (<span class="st">`</span><span class="at">Malaria deaths per 100,000 people</span><span class="st">`</span><span class="sc">*</span><span class="dv">100</span>)<span class="sc">/</span><span class="st">`</span><span class="at">Malaria cases per 1,000 at risk people</span><span class="st">`</span>) <span class="sc">%&gt;%</span></span>
 <span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>  <span class="co">#scales deaths to cases and then makes a ratio of the two</span></span>
-<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a>  <span class="co">#filter(ratio &gt; 0) %&gt;%</span></span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(ratio <span class="sc">&gt;</span> <span class="dv">0</span>, ratio <span class="sc">&lt;</span> <span class="dv">9999999999999999999</span>) </span>
 <span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a>  <span class="co">#attempt to get rid of NA values</span></span>
-<span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a>  <span class="co">#lm(ratio ~ GDP, data = . ) %&gt;%</span></span>
-<span id="cb39-7"><a href="#cb39-7" aria-hidden="true" tabindex="-1"></a>  <span class="co">#summary()</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-7"><a href="#cb39-7" aria-hidden="true" tabindex="-1"></a><span class="fu">lm</span>(ratio <span class="sc">~</span> GDP, <span class="at">data =</span> lm_mal_gdp ) <span class="sc">%&gt;%</span></span>
+<span id="cb39-8"><a href="#cb39-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summary</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = ratio ~ GDP, data = lm_mal_gdp)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-2714.88    -1.65    12.51    28.58  2732.78 
+
+Coefficients:
+              Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept) -6.139e+00  1.832e+01  -0.335    0.738    
+GDP          4.582e-10  2.370e-11  19.332   &lt;2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 321.7 on 320 degrees of freedom
+  (72 observations deleted due to missingness)
+Multiple R-squared:  0.5387,    Adjusted R-squared:  0.5373 
+F-statistic: 373.7 on 1 and 320 DF,  p-value: &lt; 2.2e-16</code></pre>
 </div>
-<p>Unfortunately this graph shows a limitation of the data sets used. It is graphing the ratio of malaria deaths/malaria cases over the GDP. In theory, the number of deaths from malaria in a country should never be able to exceed the number of case but this graph shows that most points are much higher than 1. It is my belief that this problem arises from the fact that the cases are measured by “1000 at risk people” while deaths is looking at total deaths. Even with these limitations, a linear regression shows very little correlation between the ratio and GDP. In order to show definition, both the x and y axis have been scaled by log10.</p>
+</div>
+<p>Unfortunately this graph shows a limitation of the data sets used. It is graphing the ratio of malaria deaths/malaria cases over the GDP. In theory, the number of deaths from malaria in a country should never be able to exceed the number of case but this graph shows that most points are much higher than 1. It is my belief that this problem arises from the fact that the cases are measured by “1000 at risk people” while deaths is looking at total deaths. Even with these limitations, a linear regression shows very little correlation between the ratio and GDP. The R squared value is .5373 which is not the worst and means that the regression is not a terrible fit to the data. This agrees with the observation that the ratio of deaths to cases does not seem to be heavily effected by the GDP. In order to show definition, both the x and y axis have been scaled by log10.</p>
 </section>
 <section id="conclusion" class="level3">
 <h3 class="anchored" data-anchor-id="conclusion">Conclusion</h3>
